@@ -69,6 +69,11 @@ o2_add_dpl_workflow(lambdakzerofinder_combinationPairs_syntax
                     PUBLIC_LINK_LIBRARIES O2::Framework O2::DetectorsBase O2::AnalysisDataModel O2::AnalysisCore O2::DetectorsVertexing
                     COMPONENT_NAME Analysis)
 
+o2_add_dpl_workflow(lambdakzerofinder_dcaXYprecut
+                    SOURCES lambdakzerofinder_dcaXYprecut.cxx
+                    PUBLIC_LINK_LIBRARIES O2::Framework O2::DetectorsBase O2::AnalysisDataModel O2::AnalysisCore O2::DetectorsVertexing
+                    COMPONENT_NAME Analysis)
+
 o2_add_dpl_workflow(cascadebuilder
                     SOURCES cascadebuilder.cxx
                     PUBLIC_LINK_LIBRARIES O2::Framework O2::DetectorsBase O2::AnalysisDataModel O2::AnalysisCore O2::DetectorsVertexing
