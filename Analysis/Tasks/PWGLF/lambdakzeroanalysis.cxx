@@ -86,18 +86,6 @@ struct lambdakzeroQA {
 };
 
 struct lambdakzeroanalysis {
-  HistogramRegistry registry{
-    "registry",
-    {
-      {"h3dMassK0Short", "h3dMassK0Short", {HistType::kTH3F, {{20, 0.0f, 100.0f}, {200, 0.0f, 10.0f}, {200, 0.450f, 0.550f}}}},
-      {"h3dMassLambda", "h3dMassLambda", {HistType::kTH3F, {{20, 0.0f, 100.0f}, {200, 0.0f, 10.0f}, {200, 1.015f, 1.215f}}}},
-      {"h3dMassAntiLambda", "h3dMassAntiLambda", {HistType::kTH3F, {{20, 0.0f, 100.0f}, {200, 0.0f, 10.0f}, {200, 1.015f, 1.215f}}}},
-
-      {"h3dMassK0ShortDca", "h3dMassK0ShortDca", {HistType::kTH3F, {{200, 0.0f, 1.0f}, {200, 0.0f, 10.0f}, {200, 0.450f, 0.550f}}}},
-      {"h3dMassLambdaDca", "h3dMassLambdaDca", {HistType::kTH3F, {{200, 0.0f, 1.0f}, {200, 0.0f, 10.0f}, {200, 1.015f, 1.215f}}}},
-      {"h3dMassAntiLambdaDca", "h3dMassAntiLambdaDca", {HistType::kTH3F, {{200, 0.0f, 1.0f}, {200, 0.0f, 10.0f}, {200, 1.015f, 1.215f}}}},
-    },
-  };
 
   //Selection criteria
   Configurable<double> v0cospa{"v0cospa", 0.995, "V0 CosPA"}; //double -> N.B. dcos(x)/dx = 0 at x=0)
@@ -107,8 +95,22 @@ struct lambdakzeroanalysis {
   Configurable<float> v0radius{"v0radius", 5.0, "v0radius"};
   Configurable<float> rapidity{"rapidity", 0.5, "rapidity"};
   Configurable<int> saveDcaHist{"saveDcaHist", 0, "saveDcaHist"};
+  Configurable<int> nBinDcaLambda{"nBinDcaLambda", 200, "nBinDcaLambda"};
 
   Filter preFilterV0 = nabs(aod::v0data::dcapostopv) > dcapostopv&& nabs(aod::v0data::dcanegtopv) > dcanegtopv&& aod::v0data::dcaV0daughters < dcav0dau;
+
+  HistogramRegistry registry{
+    "registry",
+    {
+      {"h3dMassK0Short", "h3dMassK0Short", {HistType::kTH3F, {{20, 0.0f, 100.0f}, {200, 0.0f, 10.0f}, {200, 0.450f, 0.550f}}}},
+      {"h3dMassLambda", "h3dMassLambda", {HistType::kTH3F, {{20, 0.0f, 100.0f}, {200, 0.0f, 10.0f}, {200, 1.015f, 1.215f}}}},
+      {"h3dMassAntiLambda", "h3dMassAntiLambda", {HistType::kTH3F, {{20, 0.0f, 100.0f}, {200, 0.0f, 10.0f}, {200, 1.015f, 1.215f}}}},
+
+      {"h3dMassK0ShortDca", "h3dMassK0ShortDca", {HistType::kTH3F, {{200, 0.0f, 1.0f}, {200, 0.0f, 10.0f}, {200, 0.450f, 0.550f}}}},
+      {"h3dMassLambdaDca", "h3dMassLambdaDca", {HistType::kTH3F, {{nBinDcaLambda, 0.0f, 1.0f}, {200, 0.0f, 10.0f}, {200, 1.015f, 1.215f}}}},
+      {"h3dMassAntiLambdaDca", "h3dMassAntiLambdaDca", {HistType::kTH3F, {{nBinDcaLambda, 0.0f, 1.0f}, {200, 0.0f, 10.0f}, {200, 1.015f, 1.215f}}}},
+    },
+  };
 
   void process(soa::Join<aod::Collisions, aod::EvSels, aod::Cents>::iterator const& collision, soa::Filtered<aod::V0Datas> const& fullV0s)
   {
